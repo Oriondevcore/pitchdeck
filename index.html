@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Orion Hotel Suite - African Hospitality AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 1. THE SETUP & GLOBAL STYLES */
+        * { box-sizing: border-box; }
+        body {
+            background-color: #050505;
+            display: grid;
+            gap: 60px;
+            grid-template-columns: 1fr;
+            margin: 0;
+            min-height: 100vh;
+            padding: 60px 0;
+            place-items: center;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .slide-container {
+            background-color: #0d0d11;
+            color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            font-weight: 400;
+            height: 720px;
+            overflow: hidden;
+            padding: 70px;
+            position: relative;
+            width: 1280px;
+            border: 1px solid rgba(0, 242, 255, 0.15);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            border-radius: 4px;
+        }
+
+        /* Abstract Background Elements */
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 50%;
+            height: 50%;
+            background: radial-gradient(circle, rgba(222, 255, 154, 0.05) 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .slide-container > * { position: relative; z-index: 1; }
+
+        /* 2. TYPOGRAPHY */
+        h1, h2, h3 { 
+            margin: 0; 
+            letter-spacing: -0.01em;
+            font-weight: 700;
+        }
+        
+        .slide-title {
+            font-size: 52px;
+            color: #00f2ff;
+            margin-bottom: 45px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        p, li, td, th {
+            color: #cbd5e1;
+            font-size: 22px;
+            line-height: 1.5;
+        }
+
+        strong { color: #ffffff; font-weight: 700; }
+        .accent { color: #deff9a; }
+        .cyan { color: #00f2ff; }
+
+        /* 3. LAYOUT COMPONENTS */
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .image-wrapper {
+            border-radius: 30px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            height: 420px;
+        }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.1) brightness(0.9); }
+
+        /* Tiled Grid */
+        .tiled-content {
+            display: flex;
+            gap: 30px;
+            justify-content: space-between;
+        }
+        .tile {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 45px;
+            border-radius: 32px;
+            flex: 1;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+        .tile:hover { border-color: #00f2ff; transform: translateY(-10px); background: rgba(0, 242, 255, 0.02); }
+        .tile i { color: #00f2ff; font-size: 44px; margin-bottom: 25px; }
+        .tile h3 { color: #ffffff; margin-bottom: 18px; font-size: 26px; }
+
+        /* 4. SPECIFIC LAYOUTS */
+        .bleed-image-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 0;
+        }
+        .bleed-image-layout .content-container { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+        .bleed-image-side { width: 100%; height: 720px; object-fit: cover; }
+
+        /* Table Style */
+        table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+        th { text-align: left; padding: 25px; background: rgba(255,255,255,0.05); color: #00f2ff; text-transform: uppercase; font-size: 18px; letter-spacing: 1px; }
+        td { padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 20px; }
+
+        .bullet-list { list-style: none; padding: 0; }
+        .bullet-list li { position: relative; padding-left: 55px; margin-bottom: 30px; font-size: 24px; }
+        .bullet-list li i { position: absolute; left: 0; top: 4px; color: #deff9a; font-size: 28px; }
+
+        /* Branding Elements */
+        .logo-small { height: 60px; margin-bottom: 20px; }
+        .popia-badge { 
+            position: absolute; 
+            top: 40px; 
+            right: 40px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            background: rgba(222, 255, 154, 0.1); 
+            padding: 8px 15px; 
+            border-radius: 50px; 
+            border: 1px solid rgba(222, 255, 154, 0.3);
+        }
+        .popia-badge span { font-size: 14px; font-weight: 600; color: #deff9a; text-transform: uppercase; letter-spacing: 1px; }
+
+        .title-layout { text-align: center; }
+        .section-title-layout { text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Title_Slide -->
+<div class="slide-container" id="slide1" style="background: linear-gradient(rgba(5,5,7,0.85), rgba(5,5,7,0.85)), url('Gemini_Generated_Image_e976cie976cie976.jpg'); background-size: cover; background-position: center;">
+    <div class="title-layout content-area">
+        <img src="logo.jpg" alt="Orion Logo" style="height: 140px; margin-bottom: 40px;">
+        <h1 style="font-size: 96px; line-height: 1; font-weight: 700;">THE ORION <br><span style="color:#00f2ff;">HOTEL SUITE</span></h1>
+        <p style="font-size: 36px; color: #f8fafc; margin-top: 30px; font-weight: 300; letter-spacing: 2px;">The Nervous System for African Hospitality</p>
+        
+        <div style="margin-top: 80px; display: flex; gap: 40px; justify-content: center;">
+            <div style="text-align: center;">
+                <p style="font-size: 14px; text-transform: uppercase; letter-spacing: 3px; color: #deff9a;">Powered by</p>
+                <p style="font-size: 20px; font-weight: 600;">Google Gemini AI</p>
+            </div>
+            <div style="width: 1px; background: rgba(255,255,255,0.2); height: 50px;"></div>
+            <div style="text-align: center;">
+                <p style="font-size: 14px; text-transform: uppercase; letter-spacing: 3px; color: #deff9a;">Standard</p>
+                <p style="font-size: 20px; font-weight: 600;">Luxury Hospitality</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 2: Core Focus -->
+<div class="slide-container" id="slide2">
+    <div class="popia-badge">
+        <i class="fa-solid fa-shield-check" style="color:#deff9a;"></i>
+        <span>POPIA Compliant</span>
+    </div>
+    <div class="section-title-layout">
+        <img src="Logo2.jpg" alt="Icon" style="height: 100px; margin-bottom: 40px;">
+        <h2 style="font-size: 82px; line-height: 1.1;">Your Bottom Line. <br><span class="cyan">Elevated.</span></h2>
+        <div style="width: 120px; border: 3px solid #00f2ff; margin: 40px 0;"></div>
+        <p style="max-width: 900px; font-size: 32px; font-weight: 300;">Converting guest anxiety into <strong>ROI</strong>, safety into <strong>Efficiency</strong>, and inquiries into <strong>Revenue</strong>.</p>
+    </div>
+</div>
+
+<!-- Slide 3: The Issue -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">The "Duty of Care" Problem</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p style="font-size: 28px; margin-bottom: 35px;"><strong>International Anxiety:</strong> First-time guests feel vulnerable navigating a new city. This friction stops them from leaving the room or booking extras.</p>
+                <p style="font-size: 28px;"><strong>The Liability Trap:</strong> Without a clear record, guest complaints become your word against theirs. A massive risk for your brand and insurance.</p>
+                <div style="margin-top: 50px; padding: 35px; background: rgba(0, 242, 255, 0.05); border-left: 5px solid #00f2ff; border-radius: 0 20px 20px 0;">
+                    <p style="font-style: italic; font-size: 22px; color: #ffffff;">"In hospitality, if it wasn't logged with a timestamp, it didn't happen."</p>
+                </div>
+            </div>
+            <div class="image-wrapper">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/1193128455704751275" alt="Guest safety">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: Red Mode -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">Solution: Emergency "Red Mode"</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <i class="fa-solid fa-bell-exclamation" style="color:#ff4d4d;"></i>
+                <h3>Total Oversight</h3>
+                <p>One tap bypasses everything. Your Manager Dashboard lights up instantly. No missed calls, no excuses.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-fingerprint"></i>
+                <h3>The Audit Trail</h3>
+                <p>A complete, verifiable record of every request and response. Your perfect defense for legal and insurance claims.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-user-shield" style="color:#deff9a;"></i>
+                <h3>Digital Peace</h3>
+                <p>Give guests the confidence to explore, knowing you are a single click away. Better reviews, higher trust.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: F&B Revenue -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">The "F&B" Revenue Engine</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Removing the "Mental Math" Wall</h3>
+                <p style="font-size: 26px;">Guests hesitate to order when they have to convert <strong>ZAR to Dollars or Euros</strong> in their head.</p>
+                <p style="font-size: 26px; margin-top: 30px;">This "Mental Friction" is costing your restaurant thousands in daily revenue. Orion removes the wall instantly.</p>
+                <div style="margin-top: 45px; display: flex; align-items: center; gap: 25px;">
+                    <div style="background: #deff9a; color: #000; padding: 20px; border-radius: 15px; font-weight: 700; font-size: 24px;">Increased Average Check Size</div>
+                    <i class="fa-solid fa-arrow-right-long" style="font-size: 30px; color: #deff9a;"></i>
+                </div>
+            </div>
+            <div class="image-wrapper">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/7545918455176139664" alt="Luxury Steak">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: Localized Comfort -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">Frictionless Indulgence</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <i class="fa-solid fa-coins"></i>
+                <h3>Instant Reassurance</h3>
+                <p>AI mentions: "That R450 Wagyu is just $24 USD." It feels like a steal, so they order the dessert and the wine, too.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-sun-bright"></i>
+                <h3>Contextual Selling</h3>
+                <p>It's 28°C. Orion suggests a signature poolside cocktail rather than just telling them the temperature.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-battery-bolt" style="color:#deff9a;"></i>
+                <h3>Eskom-Ready</h3>
+                <p>Real-time loadshedding sync. "The power shifts in 10 mins, but our generator is ready—keep enjoying the music."</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: Revenue Generator -->
+<div class="slide-container bleed-image-layout" id="slide7">
+    <div class="content-container">
+        <h2 class="slide-title" style="font-size: 42px;">Your Virtual Concierge</h2>
+        <div class="content-area">
+            <h3 style="font-size: 34px;">Instant Itineraries</h3>
+            <p style="margin-top: 25px;">Traditional concierges are slow. Printed brochures are trash. Orion generates <strong>full 3-day luxury tours</strong> in under 2 seconds.</p>
+            <p style="margin-top: 25px;" class="accent">Completely personalized to your guest's taste, age, and vibe.</p>
+            <div style="margin-top: 40px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
+                <p style="font-size: 18px; color: #00f2ff; margin: 0; text-transform: uppercase; letter-spacing: 2px;">Value Add:</p>
+                <p style="margin: 5px 0 0 0; font-weight: 600;">Justify a "Premium Digital Service" room rate increase.</p>
+            </div>
+        </div>
+    </div>
+    <img class="bleed-image-side" src="http://googleusercontent.com/image_collection/image_retrieval/12114936557048919743" alt="Cape Town Wine">
+</div>
+
+<!-- Slide 8: Branded Upselling -->
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">Auto-Pilot Upselling</h2>
+    <div class="content-area">
+        <div class="bullet-list" style="max-width: 1000px; margin: 0 auto;">
+            <ul>
+                <li><i class="fa-solid fa-file-check"></i> <strong>Branded PDF Plans:</strong> Orion prints a beautiful itinerary with <strong>Your Logo</strong> for the guest to take with them.</li>
+                <li><i class="fa-solid fa-house-chimney-heart"></i> <strong>Keep Them In-House:</strong> Every custom plan automatically lists <strong>Your Restaurant</strong> as the dinner stop every single night.</li>
+                <li><i class="fa-solid fa-user-gear"></i> <strong>Zero Staff Fatigue:</strong> Your team focuses on high-touch service while Orion handles the 1,000 "Where is...?" questions.</li>
+            </ul>
+        </div>
+        <div style="text-align: center; margin-top: 40px;">
+            <p style="font-size: 30px; font-weight: 700; color: #deff9a;">Recapture the revenue that used to leave your hotel.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 9: Financial Firewall -->
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">The Financial Firewall</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3 style="font-size: 36px;">Zero Risk. Total Security.</h3>
+                <p style="font-size: 26px; margin-top: 30px;">PCI Compliance and credit card theft are nightmares you don't need. Orion solves this with a <strong>Seamless Handshake</strong>.</p>
+                <div style="margin: 45px 0; border: 2px solid #deff9a; padding: 30px; border-radius: 24px; background: rgba(222, 255, 154, 0.05);">
+                    <p style="color:#deff9a; font-size: 28px; font-weight: 700; margin: 0;">"We are the waiter, not the bank."</p>
+                </div>
+                <p style="font-size: 24px;">Your money stays in your systems. We simply make the payment process invisible and easy for the guest.</p>
+            </div>
+            <div class="image-wrapper">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/17624388954262442822" alt="Payment Security">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 10: Payments -->
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">Direct-to-Bank Payments</h2>
+    <div class="content-area">
+        <p style="font-size: 28px; text-align: center; margin-bottom: 40px;">Orion facilitates the transaction—the funds go <strong>straight to your account</strong>.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Service Type</th>
+                    <th>Payment Experience</th>
+                    <th>Where the Money Goes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Bookings / Deposits</strong></td>
+                    <td>Instant Nightsbridge Sync</td>
+                    <td>Direct to Hotel Account</td>
+                </tr>
+                <tr>
+                    <td><strong>F&B / Spa / Extras</strong></td>
+                    <td>Scan-to-Pay (Yoco / SnapScan)</td>
+                    <td>Direct to Hotel Account</td>
+                </tr>
+                <tr>
+                    <td><strong>Room Service</strong></td>
+                    <td>Invisible Checkout</td>
+                    <td>Direct to Hotel Account</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="margin-top: 50px; text-align: center;">
+            <p style="font-weight: 700; color: #00f2ff; font-size: 26px;">No commissions taken. No data stored. Pure efficiency.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 11: Language -->
+<div class="slide-container" id="slide11">
+    <h2 class="slide-title">A Truly African Welcome</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="image-wrapper" style="height: 500px; border-radius: 50%;">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/2172946815754337253" alt="African Hospitality">
+            </div>
+            <div>
+                <h3>Authentic Connection</h3>
+                <p style="font-size: 26px;">Standard bots sound like silicon valley. Orion speaks <strong>isiZulu, isiXhosa, and Afrikaans</strong> with cultural nuance.</p>
+                <div class="bullet-list" style="margin-top: 40px;">
+                    <ul>
+                        <li><i class="fa-solid fa-heart" style="color:#ff4d4d;"></i> Dignity for local staff.</li>
+                        <li><i class="fa-solid fa-earth-africa" style="color:#00f2ff;"></i> Respect for international guests.</li>
+                        <li><i class="fa-solid fa-comments"></i> 11 Official South African languages supported.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 12: Contact -->
+<div class="slide-container" id="slide12" style="background: radial-gradient(circle at bottom right, rgba(0, 242, 255, 0.1), transparent 50%);">
+    <div class="section-title-layout">
+        <img src="ODC Logo.jpg" alt="Orion Dev Core Full Logo" style="height: 300px; margin-bottom: 20px;">
+        <h2 style="font-size: 64px; color: #00f2ff; margin-bottom: 10px;">Ready to Elevate?</h2>
+        <div style="width: 80px; border: 2px solid #deff9a; margin-bottom: 40px;"></div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; text-align: left; background: rgba(255,255,255,0.03); padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.05);">
+            <div>
+                <p style="font-weight: 700; font-size: 28px; margin-bottom: 5px; color: #fff;">Graham Schubach</p>
+                <p style="color: #deff9a; font-weight: 500; font-size: 20px;">Owner | ORION DEV CORE</p>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <p style="margin: 4px 0; font-size: 20px;"><i class="fa-solid fa-envelope cyan" style="width: 30px;"></i> graham@oriondevcore.com</p>
+                <p style="margin: 4px 0; font-size: 20px;"><i class="fa-solid fa-phone cyan" style="width: 30px;"></i> +27 72 497 1810</p>
+                <p style="margin: 4px 0; font-size: 20px;"><i class="fa-solid fa-globe cyan" style="width: 30px;"></i> www.oriondevcore.com</p>
+            </div>
+        </div>
+        <p style="margin-top: 50px; font-style: italic; opacity: 0.7; font-size: 18px;">"Human imagination. AI amplification. Powerful creations for all generations."</p>
+    </div>
+</div>
+
+</body>
+</html>
